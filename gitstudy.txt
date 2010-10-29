@@ -1,0 +1,16 @@
+Git Study
+
+To turn off the auto convertion of new line sign crlf:
+$ git config --global core.autocrlf false
+
+If I push a branch to remote repository, then the next time my collaborators fetch from the server with the new branch. So how do they fetch with remote master branch.
+$ git push origin [mylocalbranch]
+then
+$ git fetch origin
+will get you into origin/[mylocalbranch] branch.
+
+And who will merge the remote master branch with some others?
+Maybe the one who fetches remote with the new branch should track the new branch with remote, then merge it with master locally and push it. The remote master might be also merged with the new branch.
+
+
+
