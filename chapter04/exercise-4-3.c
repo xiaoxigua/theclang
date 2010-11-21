@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h> /* for atof() */
 #include <ctype.h>
+#include <math.h> /* for fmod() */
 
 #define MAXOP 100 /* max size of operand or operator */
 #define NUMBER '0' /* signal that a number was found */
@@ -10,7 +11,7 @@ void push(double);
 double pop(void);
 
 /* reverse Polish calculator */
-main()
+int main(void)
 {
 	int type;
 	double op2;
@@ -37,6 +38,13 @@ main()
 				op2 = pop();
 				if(op2 != 0.0)
 					push(pop() / op2);
+				else
+					printf("error: zero divisor.\n");
+				break;
+			case '%':
+				op2 = pop();
+				if(op2)
+					push(fmod(op2, pop()));
 				else
 					printf("error: zero divisor.\n");
 				break;
@@ -84,18 +92,32 @@ void ungetch(int);
 /* getop: get next character or numberic operand */
 int getop(char s[])
 {
-	int i, c;
+	int i, c, next;
 	
+	/* skip white space */
 	while((s[0] = c = getch()) == ' ' || c == '\t')
 		;
 	s[1] = '\0';
-	if(!isdigit(c) && c != '.')
+
+	/* not a number but may contain an unary minus. */
+	if(!isdigit(c) && c != '.' && c != '-')
 		return c; /* not a number */
+	if(c == '-')
+	{
+		next = getch();
+		if(!isdigit(next) && next != '.')
+		{
+			return c;
+		}
+		c = next;
+	} else
+	{
+		c = getch();
+	}
 	i = 0;
-	if(isdigit(c))
-		while(isdigit(s[++i] = c = getch()))
-			;
-	if(c == '.')
+	while(isdigit(s[++i] = c))
+		c = getch();
+	if(c == '.') /* collect fraction part. */
 		while(isdigit(s[++i]  = c = getch()))
 			;
 	s[i] = '\0';
