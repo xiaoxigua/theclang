@@ -2,9 +2,12 @@
 
 int main(void)
 {
-	double a[] = {0.0, 3.3, 2.3};
-	double *dp;
-	dp = a;
-	printf("a = %d\n", dp);
-	printf("a + 1 = %d\n", ++dp);
+    char my_string1[]     = "1234567890";
+    char my_string2[10] = "1234567890";
+
+    printf("Size of my_string1 containing '%d' is %d\n", my_string1,sizeof(my_string1));
+    printf("Size of my_string2 containing '%d' is %d\n", my_string2,sizeof(my_string2));
+    printf("my_string1[9] is %c\n",my_string1[9]);
+    printf("my_string2[9] is %c\n",my_string2[9]);
+    return 0; 
 }
