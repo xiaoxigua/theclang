@@ -37,9 +37,10 @@ int strend(char *s, char *t)
 int main(void)
 {
 	char s[] = "this is a test.";
-	char t[] = "test.";
+	char t[] = "test";
+	int res = strend(s, t);
 
-	printf("The result = %d", strend(s, t));
+	printf("The result = %d", res);
 
 	return 0;
 }
