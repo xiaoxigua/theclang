@@ -12,23 +12,18 @@ void qsort(char *lineptr[], int left, int right);
 /* sort input lines */
 int main(void)
 {
-	int getline(char *, int);
-	char line[MAXLINES];
-	int len;
-	len = getline(line, MAXLINES);
+	int nlines; /* number of input lines read */
 
-	//int nlines; /* number of input lines read */
-
-	//if((nlines = readlines(lineptr, MAXLINES)) >= 0)
-	//{
-	//	qsort(lineptr, 0, nlines - 1);
-	//	writelines(lineptr, nlines);
-	//	return 0;
-	//} else
-	//{
-	//	printf("error: input too big to sort\n");
-	//	return 1;
-	//}
+	if((nlines = readlines(lineptr, MAXLINES)) >= 0)
+	{
+		qsort(lineptr, 0, nlines - 1);
+		writelines(lineptr, nlines);
+		return 0;
+	} else
+	{
+		printf("error: input too big to sort\n");
+		return 1;
+	}
 }
 
 #define MAXLEN 1000 /* max length of any input line */
@@ -40,18 +35,16 @@ int readlines(char *lineptr[], int maxlines)
 {
 	int len, nlines;
 	char *p, line[MAXLEN];
+	void strcpy1(char *, char *);
 
 	nlines = 0;
 	while((len = getline(line, MAXLEN)) > 0)
 	{
-		printf("readline len: %d\n", len);
-		printf("readline string: %s\n", line);
-		if(nlines >= maxlines || (p = alloc(len)) == NULL)
+		if(nlines >= maxlines || (p = alloc(len + 1)) == NULL)
 			return -1;
 		else
 		{
-			line[len - 1] = '\0'; /* delete new line */
-			strcpy(p, line);
+			strcpy1(p, line);
 			lineptr[nlines++] = p;
 		}
 	}
@@ -59,30 +52,43 @@ int readlines(char *lineptr[], int maxlines)
 	return nlines;
 }
 
+void strcpy1(char *s, char *t)
+{
+	while(*s++ = *t++)
+		;
+}
+
 /* writelines: write output lines */
 void writelines(char *lineptr[], int nlines)
 {
 	int i;
 	for(i = 0; i < nlines; i++)
-		printf("%s\n", lineptr[i]);
+		printf("%s", lineptr[i]);
 }
 
 int getline(char *s, int maxlen)
 {
 	int i;
 
-	for(i = 0; i < maxlen; i++)
-	{
-		*s = getchar();
-		printf("charactor[%d]: %d\n", i, *s);
-		if(*s == EOF || *s == '\n')
-			break;
-		s++;
-	}
+	for(i = 0; i < maxlen - 1 && (*s = getchar()) != EOF && *s != '\n'; i++, s++)
+		;
 	if(*s == EOF)
 		return 0;
-	printf("Got string: %s (length = %d)\n", s, i);
-	return i;
+	if(*s == '\n')
+		*(++s) = '\0';
+	return ++i;
+	
+	/*
+	char *p;
+	int c;
+	p = s;
+	while(--maxlen > 0 && (c = getchar()) != EOF && c != '\n')
+		*p++ = c;
+	if(c == '\n')
+		*p++ = c;
+	*p = '\0';
+	return (int)(p - s);
+	*/
 }
 
 
