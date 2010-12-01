@@ -4,13 +4,8 @@
 
 void strcopy(char *s, char *t)
 {
-	while(*t != '\0')
-	{
-		(*s) = (*t);
-		printf("s = %d (%d), t = %d (%d)\n", *s, s, *t, t);
-		s++;
-		t++;
-	}
+	while(*s++ = *t++)
+		;
 }
 
 int strcompare(char *s, char *t)
@@ -26,7 +21,6 @@ int main(void)
 	char *s;
 	char *t;
 	t = "this is a string.";
-	s = "this is not a string.";
 
 	//int res = strcompare(s, t);
 	//printf("compare result = %d\n", res);

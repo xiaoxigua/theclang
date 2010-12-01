@@ -40,7 +40,7 @@ int readlines(char *lineptr[], int maxlines)
 	nlines = 0;
 	while((len = getline(line, MAXLEN)) > 0)
 	{
-		if(nlines >= maxlines || (p = alloc(len + 1)) == NULL)
+		if(nlines >= maxlines || (p = alloc(len + 1)) == NULL) /* or use malloc to request memory */
 			return -1;
 		else
 		{
@@ -91,10 +91,10 @@ int getline(char *s, int maxlen)
 	*/
 }
 
-
+#define ALLOCSIZE 10000
 char *alloc(int n)
 {
-	static char allocbuf[MAXLINES];
+	static char allocbuf[ALLOCSIZE];
 	static char *allocp = allocbuf;
 	if(allocbuf + MAXLINES - allocp >= n)
 	{
